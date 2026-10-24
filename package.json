@@ -1,0 +1,36 @@
+{
+  "name": "ap-physics-knowledge-graph",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "NUXT_TELEMETRY_DISABLED=1 nuxt dev --host 0.0.0.0 --port 3000",
+    "build": "NUXT_TELEMETRY_DISABLED=1 nuxt build",
+    "generate": "NUXT_TELEMETRY_DISABLED=1 nuxt generate",
+    "preview": "NUXT_TELEMETRY_DISABLED=1 nuxt preview",
+    "postinstall": "nuxt prepare",
+    "test": "jiti tests/graph-data.test.ts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@fontsource/source-sans-3": "^5.2.8",
+    "@fontsource/source-serif-4": "^5.2.8",
+    "@nuxtjs/tailwindcss": "^6.14.0",
+    "cytoscape": "^3.33.1",
+    "cytoscape-dagre": "^4.0.1",
+    "cytoscape-fcose": "^2.2.0",
+    "fuse.js": "^7.1.0",
+    "katex": "^0.16.22",
+    "marked": "^15.0.12",
+    "nuxt": "^3.21.11",
+    "vue": "^3.5.22",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "@types/cytoscape": "^3.21.9",
+    "@types/node": "^26.6.5",
+    "typescript": "^5.9.2",
+    "vue-tsc": "^3.3.13"
+  }
+}

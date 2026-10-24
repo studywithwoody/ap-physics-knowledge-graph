@@ -1,0 +1,163 @@
+export function graphStylesheet() {
+  return [
+    {
+      selector: 'node[kind = "concept"]',
+      style: {
+        label: 'data(label)',
+        'background-color': 'data(fill)',
+        'border-color': 'data(color)',
+        'border-width': 2,
+        color: '#1c1915',
+        'font-family': 'Source Sans 3, sans-serif',
+        'font-size': 11,
+        'font-weight': 600,
+        'text-wrap': 'wrap',
+        'text-max-width': 110,
+        'text-valign': 'center',
+        'text-halign': 'center',
+        width: 128,
+        height: 54,
+        shape: 'round-rectangle',
+        'min-zoomed-font-size': 8,
+      },
+    },
+    {
+      selector: 'node[type = "equation"]',
+      style: { shape: 'diamond', width: 116, height: 80, 'text-max-width': 78 },
+    },
+    {
+      selector: 'node[type = "law"]',
+      style: { shape: 'octagon', width: 124, height: 62 },
+    },
+    {
+      selector: 'node[type = "skill"]',
+      style: { shape: 'ellipse', width: 122, height: 56 },
+    },
+    {
+      selector: 'node[kind = "unit"]',
+      style: {
+        label: 'data(label)',
+        'background-color': 'data(color)',
+        'background-opacity': 0.08,
+        'border-color': 'data(color)',
+        'border-width': 2,
+        'border-opacity': 0.8,
+        shape: 'round-rectangle',
+        color: 'data(color)',
+        'font-family': 'Source Serif 4, Georgia, serif',
+        'font-size': 14,
+        'font-weight': 700,
+        'text-valign': 'top',
+        'text-halign': 'center',
+        'text-margin-y': -18,
+        'text-wrap': 'ellipsis',
+        'text-max-width': 220,
+        'text-background-color': '#f4efe6',
+        'text-background-opacity': 0.94,
+        'text-background-padding': '3px',
+        'text-background-shape': 'roundrectangle',
+        padding: '18px',
+        'min-zoomed-font-size': 6,
+        'compound-sizing-wrt-labels': 'exclude',
+      },
+    },
+    {
+      selector: 'node[kind = "unit"][grouped = "no"]',
+      style: {
+        'text-valign': 'center',
+        'text-margin-y': 0,
+        'text-background-opacity': 0,
+        'text-max-width': 170,
+        width: 188,
+        height: 52,
+        'background-opacity': 0.18,
+        'font-size': 12,
+        padding: '6px',
+      },
+    },
+    {
+      selector: 'edge',
+      style: {
+        width: 1.7,
+        'curve-style': 'bezier',
+        'line-color': '#64748b',
+        'target-arrow-color': '#64748b',
+        'target-arrow-shape': 'triangle',
+        'arrow-scale': 0.72,
+        opacity: 0.78,
+        'line-style': 'solid',
+        'overlay-padding': '6px',
+      },
+    },
+    {
+      selector: 'edge[relation = "prerequisite"]',
+      style: { 'line-color': '#334155', 'target-arrow-color': '#334155' },
+    },
+    {
+      selector: 'edge[relation = "derived_from"]',
+      style: { 'line-color': '#1d4ed8', 'target-arrow-color': '#1d4ed8' },
+    },
+    {
+      selector: 'edge[relation = "applies_to"]',
+      style: { 'line-color': '#0f766e', 'target-arrow-color': '#0f766e' },
+    },
+    {
+      selector: 'edge[relation = "contrasts_with"]',
+      style: {
+        'line-color': '#c2410c',
+        'target-arrow-color': '#c2410c',
+        'source-arrow-color': '#c2410c',
+        'target-arrow-shape': 'none',
+        'source-arrow-shape': 'none',
+      },
+    },
+    {
+      selector: 'edge[relation = "part_of"]',
+      style: { 'line-color': '#a8a29e', 'target-arrow-color': '#a8a29e', width: 1.15, opacity: 0.5 },
+    },
+    {
+      selector: 'edge[weak = "yes"]',
+      style: { 'line-style': 'dotted', width: 1.25, opacity: 0.42 },
+    },
+    {
+      selector: 'edge[basis = "inferred"]',
+      style: { 'line-style': 'dashed', 'line-dash-pattern': [6, 4], opacity: 0.72 },
+    },
+    {
+      selector: '.faded',
+      style: { opacity: 0.1 },
+    },
+    {
+      selector: 'node[kind = "unit"].faded',
+      style: { opacity: 1, 'background-opacity': 0.03, 'border-opacity': 0.25, 'text-opacity': 0.35 },
+    },
+    {
+      selector: 'node.highlight',
+      style: {
+        'border-width': 4,
+        'border-color': '#1c1915',
+        opacity: 1,
+        'z-index': 20,
+      },
+    },
+    {
+      selector: 'node.neighbor',
+      style: { opacity: 1, 'z-index': 12 },
+    },
+    {
+      selector: 'edge.highlight',
+      style: {
+        width: 3.3,
+        opacity: 1,
+        'line-color': '#1c1915',
+        'target-arrow-color': '#1c1915',
+        'source-arrow-color': '#1c1915',
+        'z-index': 19,
+      },
+    },
+    {
+      selector: 'edge.hover',
+      style: { width: 3, opacity: 1 },
+    },
+  ]
+}
