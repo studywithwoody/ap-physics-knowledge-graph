@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import katex from 'katex'
+import { renderLatex } from '../lib/mathText'
 import 'katex/dist/katex.min.css'
 
 const props = defineProps<{
@@ -7,15 +7,10 @@ const props = defineProps<{
   verified: boolean | null
 }>()
 
-const rows = computed(() => props.equations.map((tex) => {
-  const html = katex.renderToString(tex, {
-    throwOnError: false,
-    displayMode: true,
-    strict: 'ignore',
-    trust: false,
-  })
-  return { tex, html, failed: html.includes('katex-error') }
-}))
+const rows = computed(() => props.equations.map((tex) => ({
+  tex,
+  html: renderLatex(tex, true),
+})))
 </script>
 
 <template>
@@ -34,8 +29,8 @@ const rows = computed(() => props.equations.map((tex) => {
       class="equation rounded-lg border bg-paper px-3 py-2"
       :class="verified === false ? 'border-vermilion/50' : 'border-line'"
     >
-      <div v-html="row.html" />
-      <p v-if="row.failed" class="mt-1 break-all font-mono text-xs text-vermilion">{{ row.tex }}</p>
+      <div v-if="row.html" v-html="row.html" />
+      <p v-else class="overflow-x-auto font-mono text-sm">{{ row.tex }}</p>
       <details class="mt-1">
         <summary class="cursor-pointer text-[11px] text-ink/50">LaTeX</summary>
         <p class="mt-1 break-all font-mono text-[11px] text-ink/70">{{ row.tex }}</p>

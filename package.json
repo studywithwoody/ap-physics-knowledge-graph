@@ -8,7 +8,7 @@
     "generate": "NUXT_TELEMETRY_DISABLED=1 nuxt generate",
     "preview": "NUXT_TELEMETRY_DISABLED=1 nuxt preview",
     "postinstall": "nuxt prepare",
-    "test": "jiti tests/graph-data.test.ts"
+    "test": "jiti tests/graph-data.test.ts && jiti tests/math-text.test.ts"
   },
   "engines": {
     "node": ">=20"

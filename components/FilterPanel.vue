@@ -76,7 +76,7 @@ function onSearchKeydown(event: KeyboardEvent) {
               class="flex w-full flex-col items-start px-2.5 py-1.5 text-left hover:bg-paper"
               @click="explorer.selectNode(hit.id)"
             >
-              <span class="text-sm font-semibold leading-5">{{ hit.label }}</span>
+              <span class="text-sm font-semibold leading-5"><MathText :text="hit.label" /></span>
               <span class="text-[11px] text-ink/55">{{ hit.meta }}</span>
             </button>
           </li>

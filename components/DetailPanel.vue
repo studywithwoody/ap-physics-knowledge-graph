@@ -55,13 +55,13 @@ function relationText(relation: string) {
 </script>
 
 <template>
-  <aside class="flex h-full min-h-0 flex-col bg-panel">
+  <aside class="flex h-full min-h-0 min-w-0 max-w-full flex-col bg-panel">
     <div class="flex items-center justify-between border-b border-line px-3 py-2 xl:hidden">
       <h2 class="font-semibold">詳情</h2>
       <button type="button" class="toolbar-btn" @click="$emit('close')">關閉</button>
     </div>
 
-    <div class="min-h-0 flex-1 overflow-y-auto px-4 py-4">
+    <div class="min-h-0 min-w-0 flex-1 overflow-auto px-4 py-4">
       <div v-if="edge" class="space-y-4">
         <div>
           <p class="field-label">連結</p>
@@ -76,16 +76,16 @@ function relationText(relation: string) {
         </div>
         <p v-if="relationText(edge.relation)" class="text-sm leading-6 text-ink/75">{{ relationText(edge.relation) }}</p>
         <p v-if="edge.note" class="text-sm leading-6">
-          <span class="font-semibold">備註　</span>{{ edge.note }}
+          <span class="font-semibold">備註　</span><MathText :text="edge.note" />
         </p>
         <div class="grid gap-2">
           <button type="button" class="rounded-lg border border-line bg-paper px-3 py-2 text-left text-sm hover:border-navy" @click="explorer.selectNode(edge.source)">
             <span class="block text-[11px] text-ink/50">起點</span>
-            {{ labelOf(edge.source) }}
+            <MathText :text="labelOf(edge.source)" />
           </button>
           <button type="button" class="rounded-lg border border-line bg-paper px-3 py-2 text-left text-sm hover:border-navy" @click="explorer.selectNode(edge.target)">
             <span class="block text-[11px] text-ink/50">終點</span>
-            {{ labelOf(edge.target) }}
+            <MathText :text="labelOf(edge.target)" />
           </button>
         </div>
         <p v-if="edgeHidden" class="rounded-md bg-amber-100 px-2 py-1 text-xs text-amber-950">
@@ -98,7 +98,7 @@ function relationText(relation: string) {
       <div v-else-if="node && node.type === 'unit'" class="space-y-4">
         <div>
           <p class="field-label">單元</p>
-          <h2 class="mt-1 font-serif text-2xl leading-tight text-navy">{{ node.label }}</h2>
+          <h2 class="mt-1 font-serif text-2xl leading-tight text-navy"><MathText :text="node.label" /></h2>
         </div>
         <p class="text-sm leading-6">這個單元有 {{ unitConcepts.length }} 個概念。點名稱可在圖上定位。</p>
         <section v-if="unitInfo?.files.length" class="space-y-2">
@@ -120,7 +120,7 @@ function relationText(relation: string) {
           <li v-for="concept in unitConcepts" :key="concept.id">
             <button type="button" class="w-full rounded-md px-2 py-1 text-left text-sm hover:bg-paper" @click="explorer.selectNode(concept.id)">
               <span class="text-ink/45">{{ typeLabel(concept.type) }}</span>
-              {{ concept.label }}
+              <MathText :text="concept.label" />
             </button>
           </li>
         </ul>
@@ -129,7 +129,7 @@ function relationText(relation: string) {
       <div v-else-if="node" class="space-y-4">
         <div>
           <p class="field-label">{{ typeLabel(node.type) }} · {{ node.type }}</p>
-          <h2 class="mt-1 font-serif text-2xl leading-tight text-navy">{{ node.label }}</h2>
+          <h2 class="mt-1 font-serif text-2xl leading-tight text-navy"><MathText :text="node.label" /></h2>
           <p class="mt-1 text-xs text-ink/45">{{ node.id }}</p>
         </div>
         <div class="flex flex-wrap gap-1.5">
@@ -140,7 +140,7 @@ function relationText(relation: string) {
 
         <section v-if="node.definition" class="space-y-1">
           <h3 class="font-serif text-base text-navy">定義</h3>
-          <p class="text-sm leading-6">{{ node.definition }}</p>
+          <p class="text-sm leading-6"><MathText :text="node.definition" /></p>
           <p v-if="node.definitionNote" class="text-[11px] leading-4 text-ink/50">此處為講義內容的簡要改寫，原文可在下方展開。</p>
         </section>
 
@@ -170,7 +170,7 @@ function relationText(relation: string) {
         <section v-if="membership" class="space-y-1">
           <h3 class="font-serif text-base text-navy">所屬單元</h3>
           <button type="button" class="text-sm font-semibold text-navy underline" @click="explorer.selectNode(membership.target)">
-            {{ labelOf(membership.target) }}
+            <MathText :text="labelOf(membership.target)" />
           </button>
           <EvidenceBlock v-if="membership.evidence" :evidence="membership.evidence" />
         </section>
@@ -186,9 +186,9 @@ function relationText(relation: string) {
             </div>
             <p class="mt-1 text-sm leading-5">
               <span class="text-ink/50">這個概念 → </span>
-              <button type="button" class="font-semibold text-navy underline" @click="explorer.selectNode(item.target)">{{ labelOf(item.target) }}</button>
+              <button type="button" class="font-semibold text-navy underline" @click="explorer.selectNode(item.target)"><MathText :text="labelOf(item.target)" /></button>
             </p>
-            <p v-if="item.note" class="mt-1 text-xs leading-5 text-ink/70">{{ item.note }}</p>
+            <p v-if="item.note" class="mt-1 text-xs leading-5 text-ink/70"><MathText :text="item.note" /></p>
             <EvidenceBlock v-if="item.evidence" :evidence="item.evidence" />
           </article>
         </section>
@@ -203,10 +203,10 @@ function relationText(relation: string) {
               <span v-if="item.crossUnit" class="chip bg-paper ring-1 ring-line">跨單元</span>
             </div>
             <p class="mt-1 text-sm leading-5">
-              <button type="button" class="font-semibold text-navy underline" @click="explorer.selectNode(item.source)">{{ labelOf(item.source) }}</button>
+              <button type="button" class="font-semibold text-navy underline" @click="explorer.selectNode(item.source)"><MathText :text="labelOf(item.source)" /></button>
               <span class="text-ink/50"> → 這個概念</span>
             </p>
-            <p v-if="item.note" class="mt-1 text-xs leading-5 text-ink/70">{{ item.note }}</p>
+            <p v-if="item.note" class="mt-1 text-xs leading-5 text-ink/70"><MathText :text="item.note" /></p>
             <EvidenceBlock v-if="item.evidence" :evidence="item.evidence" />
           </article>
         </section>
