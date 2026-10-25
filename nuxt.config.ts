@@ -11,13 +11,13 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'zh-Hant' },
-      title: '物理知識圖譜',
+      title: '講義知識圖譜',
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         {
           name: 'description',
-          content: 'AP Physics 講義概念知識圖譜：依單元、類型與先備關係瀏覽定義、公式與出處。',
+          content: 'AP 課程講義知識圖譜：依單元、類型與先備關係瀏覽定義、公式與出處。',
         },
       ],
       link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],

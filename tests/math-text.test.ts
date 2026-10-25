@@ -32,4 +32,26 @@ const display = renderLatex('\\frac{a}{b}', true)
 assert.ok(display?.includes('katex-display'))
 assert.equal(renderLatex('\\frac{', true), null)
 
+assert.ok(renderMathHtml('MR = MC').includes('katex'))
+assert.ok(renderMathHtml('P = MC').includes('katex'))
+assert.equal(
+  renderMathHtml('The demand curve slopes downward because of diminishing marginal utility.').includes('katex'),
+  false,
+)
+const price = renderMathHtml('so $4.99 seems much cheaper than $5.00.')
+assert.equal(price.includes('katex'), false)
+assert.ok(price.includes('$4.99'))
+assert.ok(price.includes('$5.00'))
+const ie = renderMathHtml('produce at P = MC = ATC, i.e., at the efficient scale')
+assert.ok(ie.includes('katex'))
+assert.ok(ie.includes('i.e.'))
+const too = renderMathHtml('P > MC ⇒ too little output')
+assert.ok(too.includes('katex'))
+assert.ok(too.includes('too little output'))
+const elasticity = renderLatex(
+  '\\text{Price Elasticity of Demand}=\\frac{\\%\\text{ change in quantity demanded}}{\\%\\text{ change in price}}',
+  true,
+)
+assert.ok(elasticity?.includes('katex-display'))
+
 console.log('math text tests passed')

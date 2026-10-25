@@ -15,6 +15,7 @@ const STOP = new Set([
   'such', 'then', 'mass', 'body', 'free', 'fall', 'unit', 'law', 'work', 'done', 'rate', 'area', 'plus',
   'true', 'just', 'like', 'near', 'away', 'back', 'line', 'side', 'top', 'out', 'set', 'let', 'may', 'will',
   'once', 'form', 'kind', 'case', 'step', 'axis', 'time', 'zero', 'net', 'its', 'used', 'acts', 'act', 'any',
+  'too', 'much', 'than', 'less', 'more', 'very', 'only',
   'new', 'old', 'big', 'low', 'high', 'per', 'fig', 'eq', 'see', 'note', 'part', 'call', 'made', 'make',
 ])
 
@@ -129,7 +130,7 @@ function operatorLength(text: string, index: number): number {
   if (two === '<=' || two === '>=') return 2
   const ch = text[index] || ''
   if (!ch) return 0
-  if ('=≠≤≥≈+−-×·⋅/↔⇒→⟂⊥^,()'.includes(ch)) return 1
+  if ('=≠≤≥≈<>+−-×·⋅/↔⇒→⟂⊥^,()'.includes(ch)) return 1
   return 0
 }
 
@@ -158,6 +159,19 @@ function equationProduct(text: string, index: number): number {
   return index
 }
 
+function parenIsProse(text: string, parenIndex: number): boolean {
+  let k = parenIndex + 1
+  while (text[k] === ' ') k += 1
+  if (!/[A-Za-z]/.test(text[k] || '') || /[A-Za-z]/.test(text[k + 1] || '')) return false
+  let j = k + 1
+  while (text[j] === ' ') j += 1
+  const word = /^[a-z]{3,}/.exec(text.slice(j))
+  if (!word) return false
+  const after = text[j + word[0].length] || ''
+  if (/^(sin|cos|tan|lim|log|ln|max|min)$/.test(word[0]) && !/[A-Za-z]/.test(after)) return false
+  return true
+}
+
 function readSpan(text: string, start: number): number {
   let i = start
   while (text[i] === '(' || text[i] === '−' || text[i] === '-') i += 1
@@ -178,6 +192,7 @@ function readSpan(text: string, start: number): number {
     }
     if (spaces > 1) break
     if (expectValue && text[k] === '(') {
+      if (parenIsProse(text, k)) break
       i = k + 1
       continue
     }
@@ -193,14 +208,23 @@ function readSpan(text: string, start: number): number {
     }
     if (spaces === 1 && !expectValue) {
       const unit = /^[A-Za-z]{2,4}/.exec(text.slice(k))
-      if (unit && !STOP.has(unit[0].toLowerCase()) && operatorLength(text, k + unit[0].length)) {
+      const follow = text[k + (unit?.[0].length ?? 0)] || ''
+      if (unit && follow && !STOP.has(unit[0].toLowerCase()) && '/·⋅×'.includes(follow)) {
         i = k + unit[0].length
         expectValue = false
         continue
       }
     }
     const op = operatorLength(text, k)
+    if (op && text[k] === ',') {
+      let look = k + 1
+      while (text[look] === ' ') look += 1
+      const letter = text[look] || ''
+      const after = text[look + 1] || ''
+      if (/[A-Za-z]/.test(letter) && !/[A-Za-z0-9]/.test(after) && (after === '.' || after === ',')) break
+    }
     if (op && !expectValue) {
+      if (text[k] === '(' && parenIsProse(text, k)) break
       i = k + op
       expectValue = text[k] !== ')'
       if (i === before) break
@@ -216,7 +240,7 @@ function readSpan(text: string, start: number): number {
 }
 
 function isStrong(slice: string): boolean {
-  return /[=≠≤≥≈_^√½×·⋅/↔⇒→⟂⊥°μθαβγωπρτσηλΔΣΩℓδφΦε⁰¹²³⁴⁵⁶⁷⁸⁹₀-₉ₓ]|[\u0304\u0302]/.test(slice)
+  return /[=≠≤≥≈<>_^√½×·⋅/↔⇒→⟂⊥°μθαβγωπρτσηλΔΣΩℓδφΦε⁰¹²³⁴⁵⁶⁷⁸⁹₀-₉ₓ]|[\u0304\u0302]/.test(slice)
 }
 
 function autodetect(text: string): MathSegment[] {
@@ -281,7 +305,7 @@ function splitDelimited(input: string): MathSegment[] {
         continue
       }
     }
-    if (input[i] === '$') {
+    if (input[i] === '$' && !/[0-9]/.test(input[i + 1] || '')) {
       const end = input.indexOf('$', i + 1)
       if (end !== -1 && !input.slice(i + 1, end).includes('\n')) {
         flush()
