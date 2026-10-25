@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .app-shell {
+    height: 100dvh;
+    overflow: hidden;
+  }
+
+  .toolbar-btn {
+    @apply rounded-full border border-line bg-panel/95 px-3 py-1.5 text-sm font-semibold text-ink shadow-sm backdrop-blur-sm transition hover:border-navy/40;
+  }
+
+  .toolbar-btn[aria-pressed='true'] {
+    @apply border-navy bg-navy text-paper;
+  }
+
+  .chip {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold leading-5 tracking-wide;
+  }
+
+  .field-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.14em] text-ink/55;
+  }
+}
+
+.graph-stage {
+  background-color: #e8e2d4;
+  background-image:
+    linear-gradient(to right, rgba(27, 51, 63, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(27, 51, 63, 0.045) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.equation,
+.math-text {
+  max-width: 100%;
+}
+
+.math-inline {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  vertical-align: bottom;
+}
+
+.math-display,
+.equation .katex-display,
+.math-display .katex-display {
+  display: block;
+  max-width: 100%;
+  margin: 0.2rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  text-align: left;
+}
+
+.markdown {
+  @apply text-[15px] leading-7 text-ink;
+}
+
+.markdown h1 {
+  @apply mb-3 font-serif text-3xl leading-tight text-navy;
+}
+
+.markdown h2 {
+  @apply mb-3 mt-10 border-t border-line pt-6 font-serif text-2xl text-navy;
+}
+
+.markdown h3 {
+  @apply mb-2 mt-6 font-serif text-xl;
+}
+
+.markdown p {
+  @apply my-3;
+}
+
+.markdown ul,
+.markdown ol {
+  @apply my-3 list-disc space-y-1 pl-5;
+}
+
+.markdown ol {
+  @apply list-decimal;
+}
+
+.markdown a {
+  @apply text-navy underline decoration-navy/30 underline-offset-2;
+}
+
+.markdown code {
+  @apply rounded bg-[#f3ecdf] px-1 py-0.5 text-[0.92em];
+}
+
+.markdown blockquote {
+  @apply border-l-2 border-vermilion/70 pl-3 text-ink/80;
+}
+
+.markdown table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 1rem 0;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.markdown th,
+.markdown td {
+  border: 1px solid #e4d8c6;
+  padding: 0.45rem 0.6rem;
+  vertical-align: top;
+}
+
+.markdown th {
+  background: #f6f0e4;
+  font-weight: 650;
+  text-align: left;
+}
+
+.markdown tr:nth-child(even) td {
+  background: rgba(255, 252, 247, 0.65);
+}
