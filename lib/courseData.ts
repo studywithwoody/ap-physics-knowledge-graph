@@ -32,6 +32,13 @@ if (courses.size === 0) {
   throw new Error('找不到課程資料。請在 data/courses/ 放入至少一個 JSON 檔。')
 }
 
+const DEFAULT_COURSE_ID = 'ap-physics-1'
+
+export function defaultCourseId(): string {
+  if (courses.has(DEFAULT_COURSE_ID)) return DEFAULT_COURSE_ID
+  return [...courses.keys()][0] ?? ''
+}
+
 export function getCatalog(): CourseSummary[] {
   return [...courses.values()]
     .map((course) => ({

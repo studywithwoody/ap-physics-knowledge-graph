@@ -179,7 +179,7 @@ function onSearchKeydown(event: KeyboardEvent) {
           <input v-model="explorer.hideInferred.value" type="checkbox" class="mt-1">
           <span>
             <span class="font-semibold">隱藏推論連結</span>
-            <span class="mt-0.5 block text-xs leading-5 text-ink/60">標準物理依賴，講義沒有明文寫出。</span>
+            <span class="mt-0.5 block text-xs leading-5 text-ink/60">標準學科依賴，講義沒有明文寫出。</span>
           </span>
         </label>
         <label class="flex cursor-pointer items-start gap-2 text-sm">
